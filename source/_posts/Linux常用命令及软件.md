@@ -38,7 +38,8 @@ iftop 需要基本依赖 libpcap 和 tcpdump
 ```
 **-F** 显示特定网段的进出流量，如:
 ```bash
-# iftop -F 10.10.1.0/24或# iftop -F 10.10.1.0/255.255.255.0
+# iftop -F 10.10.1.0/24 或 
+# iftop -F 10.10.1.0/255.255.255.0
 ```
 **-h** 帮助，显示参数信息
 **-p** 使用这个参数后，中间的列表显示的本地主机信息，出现了本机以外的IP信息;
@@ -49,7 +50,7 @@ iftop 需要基本依赖 libpcap 和 tcpdump
 ```bash
 # iftop -m 100M
 ```
-<font color="black" size="4" style="font-weight:bold;font-style:italic;" face="黑体">以上的参数界面启动以后可以直接作为界面内命令使用</font>
+<font color="red" size="4" style="font-weight:bold;font-style:italic;" face="黑体">以上的参数界面启动以后可以直接作为界面内命令使用</font>
 <!-- more -->
 
 ### 定时任务设置
@@ -70,11 +71,69 @@ iftop 需要基本依赖 libpcap 和 tcpdump
 ### Linux权限管理
 - 文件权限符
 首先是类型：
-**-** 代表文件
-**d** 代表目录
-**c** 代表字符型设备
-**b** 代表块设备
+**"-"** 代表文件
+**"d"** 代表目录
+**"c"** 代表字符型设备
+**"b"** 代表块设备
+**"n"** 代表网络设备
+
+- 3组三字符构成的权限标识码
+**"r"**代表对象是可读的
+**"w"**代表对象是可写的
+**"x"**代表对象是可执行的
+
+- 3组字符各表示
+对象的属主
+对象的属组
+系统的其他用户
+
+- 默认用户权限
+由umask来确定，注意umask表示的其实是屏蔽掉的权限
+
+- 权限变更
+使用chmod来变更权限
+使用方式
+```bash
+# chmod options mode file
+```
+还可以使用符号模式
+**"u"**代表用户
+**"g"**代表组
+**"o"**代表其他
+**"a"**代表以上所有
+**"+"**代表增加权限
+**"-"**代表移除权限
+同时可以使用**"-R"**让权限改变递归到作用的文件和子目录
+
+- 改变所属关系
+使用chown改变文件所属
+使用chgrp命令改变文件的属组
+使用方式
+```bash
+# chown option owner[.group] file
+```
+<font color="red" size="4" style="font-weight:bold;font-style:italic;" face="黑体">只有root用户可以改变文件的属主。任何属主都可以改变文件的属组，前提是属主必须是源和目标属组的成员</font>
+
+chgrp使用方式
+```bash
+# chgrp group newfile
+```
+
+- 共享文件
+通过设置组ID完成新建文件对属组的共享 
 
 
+### 链接文件
+- 符号链接，软链接
+```bash
+# cp -s file link
+```
+**"-s"**参数创建一个符号链接，称为软链接
+- 硬链接
+```bash
+# cp -l filey filenew
+```
+硬链接创建了一个独立文件，引用硬链接文件等同于引用了源文件
 
-### 软连接和硬连接
+
+### 用户和组管理
